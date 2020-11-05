@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const app = require("./dataEntry")
+require("./dataEntry.js")
 const connection = mysql.createConnection({
     host: "localhost",
 
@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
     database: "staff_db",
 });
 
-app.userPrompt();
+
 
 // if(err){
 //     return console.log("Server not running.");  

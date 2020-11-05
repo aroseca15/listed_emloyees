@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const Etable = require("console.table");
+userPrompt();
 
 function userPrompt() {
     inquirer.prompt([
@@ -65,4 +66,4 @@ function displayRecords() {
 
 
 
-module.exports = dataEntry.js
+module.exports="./dataEntry.js"
