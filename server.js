@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+const app = require("./dataEntry")
 const connection = mysql.createConnection({
     host: "localhost",
 
@@ -13,10 +14,9 @@ const connection = mysql.createConnection({
     database: "staff_db",
 });
 
-if(err){
-    console.log("Server not running." + err);  
-}  else(res) => {
-    console.log(`Connected to db with id: ${connection.threadId}`);
-    userPrompt();
-}
+app.userPrompt();
 
+// if(err){
+//     return console.log("Server not running.");  
+
+// }
