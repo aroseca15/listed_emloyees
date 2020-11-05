@@ -22,7 +22,7 @@ function userPrompt() {
             case "Departments":
                 DepartmentSelect()
                 break
-            case "Display Records":
+            case "View Records":
                 displayRecords()
                 break
             // default:
@@ -269,18 +269,18 @@ function DepartmentSelect(res, err) {
             type: "rawlist",
             message: "What would you like to change?",
             name: "departments",
-            choices: ["Add New Department", "Make Updates", "Remove"]
+            choices: ["Add New Department", "Make Updates", "Close Department", "Back"]
         },
     ]).then((res) => {
-        switch (res.position) {
-            case "Add New Position":
-                AddNewPosition()
+        switch (res.departments) {
+            case "Add New Department":
+                AddNewDepartment()
                 break
             case "Make Updates":
-                UpdatePosition()
+                UpdateDepartment()
                 break
-            case "Remove Position":
-                DeletePosition()
+            case "Close Department":
+                DeleteDepartment()
                 break
             case "Back":
                 userPrompt()
@@ -290,81 +290,68 @@ function DepartmentSelect(res, err) {
 
 
 // this will need to be connected to sql AND be able to write/post new data.
-    function AddNewPosition() {
+    function AddNewDepartment() {
         inquirer.prompt([
             {
                 type: "input",
-                message: "What is your new Position Title?",
-                name: "addPtitle"
+                message: "What is your new Department Title?",
+                name: "addDtitle"
             },
 
             {
                 type: "input",
-                message: "Enter the yearly salary?",
-                name: "salary"
-            },
-
-            {
-                type: "rawlist",
-                message: "What department will this position be assigned?",
-                name: "assignedP",
-                choices: ["Accounting", "Advertisement", "Client Services", "Creative Concepts", "HR", "Legal", "Software Testing"]
+                message: "How many staff members will it require?",
+                name: "staffCount"
             },
 
             {
                 type: "input",
-                message: "What will be the position's requirements and expectations?",
-                name: "reqExp"
+                message: "What will be the responsibilities of the new department? Write brief description:",
+                name: "description"
             },
         ]).then(function (res) {
-            return console.log("New Position Saved.");
+            return console.log("New Department Saved.");
             
         });
     };
 
     // this will need to be connected to sql AND be changeable.
-    function UpdatePosition(){
+    function UpdateDepartment(){
         inquirer.prompt([
             {
                 type: "input",
-                message: "Please enter the current position title you wish to change:",
-                name: "currentPosition"
+                message: "Please enter the current department title you wish to change:",
+                name: "currentDepartment"
             },
 
             {
                 type: "rawlist",
                 message: "What do you wish to update?",
-                choices:["Title", "Salary", "Requirements and Expectations", "Department"],
-                name: "updateSelectP"
+                choices:["Title", "Description", "Staff Count"],
+                name: "updateSelectD"
             },
 
             {
                 type: "input",
                 message: "Please enter the new position title:",
-                name: "updatePosition",
-                when: function(answers){return answers.updateSelectP === "Title"}
+                name: "updateTitle",
+                when: function(answers){return answers.updateSelectD === "Title"}
             },
 
             {
                 type: "input",
-                message: "Please enter the new yearly position salary:",
-                name: "updateSalary",
-                when: function(answers){return answers.updateSelectP === "Salary"}
+                message: "Please enter the the new responsibilities of the department:",
+                name: "updateDescription",
+                when: function(answers){return answers.updateSelectD === "Description"}
             },
 
             {
                 type: "input",
-                message: "Please enter the new requirements and expectations:",
-                name: "updateReqExp",
-                when: function(answers){return answers.updateSelectP === "Requirements and Expectations"}
+                message: "Please enter the new amount of staff members needed:",
+                name: "updateStaffCount",
+                when: function(answers){return answers.updateSelectD === "Staff Count"}
             },
 
-            {
-                type: "input",
-                message: "Please enter the new department of the position:",
-                name: "updateDepartmentP",
-                when: function(answers){return answers.updateSelectP === "Department"}
-            },
         ]).then(function (res){
             return console.log("The department profile has been updated");
         });
@@ -386,8 +373,8 @@ function DepartmentSelect(res, err) {
     if (err) throw err;
 };
 
-function displayRecords() {
-    console.log("directory works.");
+function displayRecords(res) {
+    return console.log("Your sql is needed here.");
     if (err) throw err;
 };
 
