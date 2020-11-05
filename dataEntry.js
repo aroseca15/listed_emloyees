@@ -58,6 +58,8 @@ function StaffSelect(res, err) {
         };
     });
 
+
+// this will need to be connected to sql AND be able to write/post new data.
     function AddNewEmployee() {
         inquirer.prompt([
             {
@@ -102,8 +104,37 @@ function StaffSelect(res, err) {
             return console.log(res.updateStaff +"'s profile has been updated")
         })
     }
+
+// this will need to be connected to sql AND be removeable.
+    function DeleteEmployee(){
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Please enter the staff id or first and last name?",
+                name: "deleteStaff"
+            },
+
+            {
+                type: "rawlist",
+                message: "What were the circumstances of the dismissal?",
+                choices:["Voluntary", "Administrative"],
+                name: "circumstance"
+            },
+
+            {
+                type: "input",
+                message: "Please enter a brief reason for dismissal and documents available for review?",
+                name: "reasons",
+                when: function(answers){ return answers.circumstance !== "Voluntary"}
+            },
+        ]).then(function (res){
+            return console.log(res.deleteStaff + " has been removed")
+        })
+
+    }
     if (err) throw err;
 };
+
 
 function PositionSelect(res, err) {
     inquirer.prompt([
@@ -117,6 +148,9 @@ function PositionSelect(res, err) {
     console.log("direction works.");
     if (err) throw err;
 };
+
+
+
 
 function DepartmentSelect(res, err) {
     inquirer.prompt([
