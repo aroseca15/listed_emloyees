@@ -142,12 +142,123 @@ function PositionSelect(res, err) {
             type: "rawlist",
             message: "What would you like to change?",
             name: "position",
-            choices: ["Add New Position", "Make Updates", "Remove Position"]
+            choices: ["Add New Position", "Make Updates", "Remove Position", "Back"]
         },
-    ]).then();
-    console.log("direction works.");
-    if (err) throw err;
+    ]).then((res) => {
+        switch (res.position) {
+            case "Add New Position":
+                AddNewPosition()
+                break
+            case "Make Updates":
+                UpdatePosition()
+                break
+            case "Remove Position":
+                DeletePosition()
+                break
+            case "Back":
+                userPrompt()
+                break
+        };
+    });
+
+
+// this will need to be connected to sql AND be able to write/post new data.
+    function AddNewPosition() {
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "What is your new Position Title?",
+                name: "addPtitle"
+            },
+
+            {
+                type: "input",
+                message: "Enter the yearly salary?",
+                name: "salary"
+            },
+
+            {
+                type: "rawlist",
+                message: "What department will this position be assigned?",
+                name: "assignedP",
+                choices: ["Accounting", "Advertisement", "Client Services", "Creative Concepts", "HR", "Legal", "Software Testing"]
+            },
+
+            {
+                type: "input",
+                message: "What will be the position's requirements and expectations?",
+                name: "reqExp"
+            },
+        ]).then(function (res) {
+            return console.log("New Position Saved.");
+            
+        });
+    };
+
+    // this will need to be connected to sql AND be changeable.
+    function UpdatePosition(){
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Please enter the current position title you wish to change:",
+                name: "currentPosition"
+            },
+
+            {
+                type: "rawlist",
+                message: "What do you wish to update?",
+                choices:["Title", "Salary", "Requirements and Expectations", "Department"],
+                name: "updateSelectP"
+            },
+
+            {
+                type: "input",
+                message: "Please enter the new position title:",
+                name: "updatePosition",
+                when: function(answers){return answers.updateSelectP === "Title"}
+            },
+
+            {
+                type: "input",
+                message: "Please enter the new yearly position salary:",
+                name: "updateSalary",
+                when: function(answers){return answers.updateSelectP === "Salary"}
+            },
+
+            {
+                type: "input",
+                message: "Please enter the new requirements and expectations:",
+                name: "updateReqExp",
+                when: function(answers){return answers.updateSelectP === "Requirements and Expectations"}
+            },
+
+            {
+                type: "input",
+                message: "Please enter the new department of the position:",
+                name: "updateDepartmentP",
+                when: function(answers){return answers.updateSelectP === "Department"}
+            },
+        ]).then(function (res){
+            return console.log("The position profile has been updated");
+        });
+    };
+
+// this will need to be connected to sql AND be removeable.
+    function DeletePosition(){
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Please enter the position that you wish to delete:",
+                name: "deletePosition"
+            },
+        ]).then(function (res){
+            return console.log(res.deletePosition + " has been removed")
+        })
+        if (err) throw err;
+    }
 };
+
+
 
 
 
@@ -160,8 +271,118 @@ function DepartmentSelect(res, err) {
             name: "departments",
             choices: ["Add New Department", "Make Updates", "Remove"]
         },
-    ]).then();
-    console.log("direction works.");
+    ]).then((res) => {
+        switch (res.position) {
+            case "Add New Position":
+                AddNewPosition()
+                break
+            case "Make Updates":
+                UpdatePosition()
+                break
+            case "Remove Position":
+                DeletePosition()
+                break
+            case "Back":
+                userPrompt()
+                break
+        };
+    });
+
+
+// this will need to be connected to sql AND be able to write/post new data.
+    function AddNewPosition() {
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "What is your new Position Title?",
+                name: "addPtitle"
+            },
+
+            {
+                type: "input",
+                message: "Enter the yearly salary?",
+                name: "salary"
+            },
+
+            {
+                type: "rawlist",
+                message: "What department will this position be assigned?",
+                name: "assignedP",
+                choices: ["Accounting", "Advertisement", "Client Services", "Creative Concepts", "HR", "Legal", "Software Testing"]
+            },
+
+            {
+                type: "input",
+                message: "What will be the position's requirements and expectations?",
+                name: "reqExp"
+            },
+        ]).then(function (res) {
+            return console.log("New Position Saved.");
+            
+        });
+    };
+
+    // this will need to be connected to sql AND be changeable.
+    function UpdatePosition(){
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Please enter the current position title you wish to change:",
+                name: "currentPosition"
+            },
+
+            {
+                type: "rawlist",
+                message: "What do you wish to update?",
+                choices:["Title", "Salary", "Requirements and Expectations", "Department"],
+                name: "updateSelectP"
+            },
+
+            {
+                type: "input",
+                message: "Please enter the new position title:",
+                name: "updatePosition",
+                when: function(answers){return answers.updateSelectP === "Title"}
+            },
+
+            {
+                type: "input",
+                message: "Please enter the new yearly position salary:",
+                name: "updateSalary",
+                when: function(answers){return answers.updateSelectP === "Salary"}
+            },
+
+            {
+                type: "input",
+                message: "Please enter the new requirements and expectations:",
+                name: "updateReqExp",
+                when: function(answers){return answers.updateSelectP === "Requirements and Expectations"}
+            },
+
+            {
+                type: "input",
+                message: "Please enter the new department of the position:",
+                name: "updateDepartmentP",
+                when: function(answers){return answers.updateSelectP === "Department"}
+            },
+        ]).then(function (res){
+            return console.log("The department profile has been updated");
+        });
+    };
+
+// this will need to be connected to sql AND be removeable.
+    function DeleteDepartment(){
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Please enter the department that you wish to delete:",
+                name: "deleteDepartment"
+            },
+        ]).then(function (res){
+            return console.log(res.deleteDepartment + " has been removed")
+        })
+        if (err) throw err;
+    }
     if (err) throw err;
 };
 
