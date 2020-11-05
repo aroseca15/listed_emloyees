@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const Etable = require("console.table");
 
-function userPrompt (){
+function userPrompt() {
     inquirer.prompt([
         {
             message: "What would you like to see or make changes?",
@@ -11,19 +11,19 @@ function userPrompt (){
             choices: ["Staff Members", "Positions", "Departments", "View Records"]
         },
     ]).then((res) => {
-        switch(res.staff){
+        switch (res.staff) {
             case "Staff Members":
-               StaffSelect()
+                StaffSelect()
                 break
             case "Positions":
-               PositionSelect()
+                PositionSelect()
                 break
             case "Departments":
                 DepartmentSelect()
-                     break
-            case  "Display Records":
-                        displayRecords()
-                        break
+                break
+            case "Display Records":
+                displayRecords()
+                break
             // default:
             //     connection.end();
             //     process.exit(0);
@@ -32,24 +32,24 @@ function userPrompt (){
 };
 
 
-function StaffSelect(res, err){
+function StaffSelect(res, err) {
     console.log("direction works.");
-    if(err) throw err;
+    if (err) throw err;
 };
 
-function PositionSelect(res, err){
+function PositionSelect(res, err) {
     console.log("direction works.");
-    if(err) throw err;
+    if (err) throw err;
 };
 
-function DepartmentSelect(res, err){
+function DepartmentSelect(res, err) {
     console.log("direction works.");
-    if(err) throw err;
+    if (err) throw err;
 };
 
-function  displayRecords(){
+function displayRecords() {
     console.log("directory works.");
-    if(err) throw err;
+    if (err) throw err;
 };
 
 
