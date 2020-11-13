@@ -86,6 +86,13 @@ function StaffSelect(res, err) {
                 message: "What is your new hire's Last Name?",
                 name: "lastName"
             },
+// Below: OR is the value: "true"      value:"false"
+            {
+                type: "rawlist",
+                message: "Is this person offically hired?",
+                name: "status",
+                choices: [{ name: "Yes", value: "Current" }, { name: "Soon To Start", value: "Pending" }]
+            },
 
             {
                 type: "rawlist",
@@ -101,8 +108,23 @@ function StaffSelect(res, err) {
                 name: "jobTitle",
                 choices: [{ name: "Head Accountant", value: 5 }, { name: "Intern", value: 6 }, { name: "Manager", value: 2 }, { name: "Project Lead", value: 3 }, { name: "Web Developer", value: 4 }]
             },
+
+            {
+                type: "rawlist",
+                message: "What Manager Will They Report To?",
+                name: "deleteStaff",
+                choices: [{ name: "Jack Johnson", value: 2 }, { name: "Kelsea Ballerini", value: 4 }, { name: "Jackson Dunn", value: 6 }, { name: "Tirzah Ericson", value: 7 }, { name: "Scott James", value: 8 }, { name: "Tiffany Sunberg", value: 9 }]
+            },
         ]).then(function (res) {
-            return console.log("New Staff Member Saved.");
+            connection.query("INSERT INTO staff_members(first_name, last_name, status, department_id, job_id, managerId )  VALUE (?, ?, ?, ?, ?, ?);", [res.firstName, res.lastName, res.status, res.assignedD, res.jobTitle, res.managerId], (err, result)=>{
+                
+                console.table(result);
+                // return console.log("New Staff Member Saved.");
+                userPrompt();
+            if (err) throw err;
+            })
+    
+            
 
         });
     };

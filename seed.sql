@@ -14,13 +14,24 @@ INSERT INTO staff_members(id, first_name, last_name, status, department_id, job_
 VALUES (2, "Jack", "Johnson", "Current", 5,  2, 1);
 
 INSERT INTO staff_members(id, first_name, last_name, status, department_id, job_id, managerId )
-VALUES (6, "Han", "Solo", "Current", 5,  6, 2);
+VALUES (10, "Han", "Solo", "Current", 5,  6, 2);
+
+INSERT INTO staff_members(id, first_name, last_name, status, department_id, job_id, managerId )
+VALUES (8, "Scott", "James", "Current", 6,  2, 1);
+
+INSERT INTO staff_members(id, first_name, last_name, status, department_id, job_id, managerId )
+VALUES (7, "Tirzah", "Ericson", "Current", 1,  2, 1);
+
+INSERT INTO staff_members(id, first_name, last_name, status, department_id, job_id, managerId )
+VALUES (6, "Jackson", "Dunn", "Current", 2,  2, 1);
+
+INSERT INTO staff_members(id, first_name, last_name, status, department_id, job_id, managerId )
+VALUES (9, "Tiffany", "Sunberg", "Current", 3,  2, 1);
 
 
 
 INSERT INTO Staff_Removals(id, first_name, last_name, status, department_id, job_id, managerId, Removal_Circumstances, Removal_Description_Docs )
 VALUES (666, "Darth", "Vader", NULL, 5, 6, 2, "Administrative", "Insubordinate, Unwilling to learn or fulfill duties. Multiple write ups on record.");
-
 
 
 
