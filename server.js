@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-require("./dataEntry.js")
+
 const connection = mysql.createConnection({
     host: "localhost",
 
@@ -14,9 +14,15 @@ const connection = mysql.createConnection({
     database: "staff_db",
 });
 
-
+connection.connect(function(err) {
+    if (err) {
+      console.error('error connecting: ' + err.stack);
+      return;
+    }
+  });
 
 // if(err){
 //     return console.log("Server not running.");  
 
 // }
+module.exports = connection;
