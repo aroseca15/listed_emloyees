@@ -123,7 +123,7 @@ function StaffSelect(res, err) {
                 userPrompt();
             if (err) throw err;
             })
-    
+            return console.log("New Staff Member Saved.");
             
 
         });
@@ -212,7 +212,7 @@ function PositionSelect(res, err) {
 
             {
                 type: "input",
-                message: "Enter the yearly salary?",
+                message: "Enter the yearly salary? Example: '75000'",
                 name: "salary"
             },
 
@@ -229,6 +229,12 @@ function PositionSelect(res, err) {
                 name: "reqExp"
             },
         ]).then(function (res) {
+            connection.query("INSERT INTO jobTitle(name, salary, Description, department_id)  VALUE (?, ?, ?, ?);", [res.addPtitle, res.salary, res.assignedD, res.reqExp], (err, result)=>{
+                
+                console.table(result);
+                userPrompt();
+            if (err) throw err;
+            })
             return console.log("New Position Saved.");
 
         });
@@ -351,6 +357,11 @@ function DepartmentSelect(res, err) {
                 name: "description"
             },
         ]).then(function (res) {
+            connection.query("INSERT INTO department(name, number_of_staff, Description)  VALUE (?, ?, ?);", [res.addDtitle, res.staffCount, res.description], (err, result)=>{
+                console.table(result);
+                userPrompt();
+            if (err) throw err;
+            })
             return console.log("New Department Saved.");
 
         });
@@ -421,7 +432,7 @@ function DepartmentSelect(res, err) {
 
 function displayRecords() {
     // FULL join????
-    connection.query("SELECT * FROM staff, depart, job, removals;", function (err, res) {
+    connection.query("SELECT * FROM staff_members, department, jobTitle, staff_removals;", function (err, res) {
         console.table(res);
         userPrompt();
         if (err)
@@ -431,7 +442,7 @@ function displayRecords() {
 };
 
 function displayStaffRecords() {
-    connection.query("SELECT * FROM staff;", function (err, res) {
+    connection.query("SELECT * FROM staff_members;", function (err, res) {
         if (err)
             throw err
         console.table(res);
@@ -440,7 +451,7 @@ function displayStaffRecords() {
 };
 
 function displayDepartmentRecords() {
-    connection.query("SELECT * FROM depart;", function (err, res) {
+    connection.query("SELECT * FROM department;", function (err, res) {
         console.table(res);
         userPrompt();
         if (err)
@@ -449,7 +460,7 @@ function displayDepartmentRecords() {
 };
 
 function displayJobRecords() {
-    connection.query("SELECT * FROM job;", function (err, res) {
+    connection.query("SELECT * FROM jobTitle;", function (err, res) {
         console.table(res);
         userPrompt();
         if (err)
