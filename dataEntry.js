@@ -10,7 +10,7 @@ function userPrompt() {
             type: "rawlist",
             message: "What would you like to see or make changes?",
             name: "staff",
-            choices: ["Staff Members", "Positions", "Departments", "View: All Records", "Current Staff Records", "Current Department Records", "Current Position Records", "Staff Removal Records"]
+            choices: ["Staff Members", "Positions", "Departments", "View: Current Staff Records", "Current Department Records", "Current Position Records"]
         },
     ]).then((res) => {
         switch (res.staff) {
@@ -23,10 +23,10 @@ function userPrompt() {
             case "Departments":
                 DepartmentSelect()
                 break
-            case "View: All Records":
-                displayRecords()
-                break
-            case "Current Staff Records":
+            // case "View: All Records":
+            //     displayRecords()
+            //     break
+            case "View: Current Staff Records":
                 displayStaffRecords()
                 break
             case "Current Department Records":
@@ -35,12 +35,13 @@ function userPrompt() {
             case "Current Position Records":
                 displayJobRecords()
                 break
-            case "Staff Removal Records":
-                displayStaffRemovalRecords()
-                break
+            // case "Staff Removal Records":
+            //     displayStaffRemovalRecords()
+            //     break
             default:
                 connection.end();
                 process.exit(0);
+
         }
     })
 };
@@ -52,7 +53,7 @@ function StaffSelect(res, err) {
             type: "rawlist",
             message: "What would you like to change?",
             name: "employees",
-            choices: ["Add New Staff", "Make Updates", "Remove", "Back"]
+            choices: ["Add New Staff", "Make Updates", "Remove (choose if you have staff id)", "Back"]
         },
     ]).then((res) => {
         switch (res.employees) {
@@ -62,7 +63,7 @@ function StaffSelect(res, err) {
             case "Make Updates":
                 UpdateEmployee()
                 break
-            case "Remove":
+            case "Remove (choose if you have staff id)":
                 DeleteEmployee()
                 break
             case "Back":
@@ -86,7 +87,7 @@ function StaffSelect(res, err) {
                 message: "What is your new hire's Last Name?",
                 name: "lastName"
             },
-// Below: OR is the value: "true"      value:"false"
+            // Below: OR is the value: "true"      value:"false"
             {
                 type: "rawlist",
                 message: "Is this person offically hired?",
@@ -113,19 +114,16 @@ function StaffSelect(res, err) {
                 type: "rawlist",
                 message: "What Manager Will They Report To?",
                 name: "managerId",
-                choices: [{ name: "Jack Johnson", value: 2 }, { name: "Kelsea Ballerini", value: 4 }, { name: "Jackson Dunn", value: 6 }, { name: "Tirzah Ericson", value: 7 }, { name: "Scott James", value: 8 }, { name: "Tiffany Sunberg", value: 9 }]
+                choices: [{ name: "Jack Johnson", value: 5 }, { name: "Kelsea Ballerini", value: 4 }, { name: "Mandy Yorkson", value: 1 }, { name: "Jackson Dunn", value: 2 }, { name: "Tirzah Ericson", value: 7 }, { name: "Scott James", value: 6 }, { name: "Tiffany Sunberg", value: 3 }]
             },
         ]).then(function (res) {
-           
-            connection.query("INSERT INTO staff_members(first_name, last_name, status, department_id, job_id, managerId )  VALUE (?, ?, ?, ?, ?, ?);", [res.firstName, res.lastName, res.status, res.assignedD, res.jobTitle, res.managerId], (err, result)=>{
-                
-                console.table(result);
-                // return console.log("New Staff Member Saved.");
+
+            connection.query("INSERT INTO staff_members(first_name, last_name, status, department_id, job_id, managerId )  VALUE (?, ?, ?, ?, ?, ?);", [res.firstName, res.lastName, res.status, res.assignedD, res.jobTitle, res.managerId], (err, res) => {
                 userPrompt();
-            if (err) throw err;
+                if (err) throw err;
             })
-            return console.log("New Staff Member Saved.");
-            
+            return console.table(res), console.log("New Staff Member Saved.");
+
 
         });
     };
@@ -144,16 +142,17 @@ function StaffSelect(res, err) {
         return console.log("Currently Under Maintenance. Please, check back later. Sorry for any inconvenience.");
     }
 
-    // this will need to be connected to sql AND be removeable.
+
     function DeleteEmployee() {
+
         inquirer.prompt([
             {
-                type: "checkbox",
-                message: "Please find the staff member you wish to remove. Use arrows, then enter to mark their employee id in checkbox:",
-                name: "deleteStaff",
-                choices: [{ name: 2 }, { name: 3 }, { name: 4 }, { name: 5 }, { name: 6 }, { name: 11 }, { value: 12 }, { value: 13 }, { value: 14 }, { value: 15 }]
+                type: "input",
+                message: "Please enter the staff member id:",
+                name: "deleteStaff"
+
             },
-            
+
             // {
             //     type: "rawlist",
             //     message: "What were the circumstances of the dismissal?",
@@ -168,20 +167,15 @@ function StaffSelect(res, err) {
             //     when: function (answers) { return answers.circumstance !== "Voluntary" }
             // },
         ]).then(function (res) {
-            connection.query("DELETE FROM staff_members WHERE id = VALUE(?);", [res.deleteStaff], (err, res)=>{
-                
-                console.table(res);
-                // return console.log("New Staff Member Saved.");
+            connection.query("DELETE FROM staff_members WHERE id = (?);", [res.deleteStaff], (err, res) => {
                 userPrompt();
-            if (err) throw err;
+                if (err) throw err;
             })
-            // return console.log(res.deleteStaff + " has been removed")
+            return console.table(res);
         })
 
     }
-    if (err) throw err;
 };
-
 
 function PositionSelect(res, err) {
     inquirer.prompt([
@@ -189,7 +183,7 @@ function PositionSelect(res, err) {
             type: "rawlist",
             message: "What would you like to change?",
             name: "position",
-            choices: ["Add New Position", "Make Updates", "Remove Position", "Back"]
+            choices: ["Add New Position", "Make Updates", "Remove Position (choose if you have position id)", "Back"]
         },
     ]).then((res) => {
         switch (res.position) {
@@ -199,7 +193,7 @@ function PositionSelect(res, err) {
             case "Make Updates":
                 UpdatePosition()
                 break
-            case "Remove Position":
+            case "Remove Position (choose if you have position id)":
                 DeletePosition()
                 break
             case "Back":
@@ -209,7 +203,7 @@ function PositionSelect(res, err) {
     });
 
 
-    // this will need to be connected to sql AND be able to write/post new data.
+
     function AddNewPosition() {
         inquirer.prompt([
             {
@@ -225,89 +219,93 @@ function PositionSelect(res, err) {
             },
 
             {
-                type: "rawlist",
-                message: "What department will this position be assigned?",
-                name: "assignedP",
-                choices: [{ name: "Accounting", value: 1 }, { name: "Advertisement", value: 2 }, { name: "Client Services", value: 3 }, { name: "Creative Concepts", value: 4 }, { name: "HR", value: 5 }, { name: "Web Development", value: 6 }]
-            },
-
-            {
                 type: "input",
                 message: "What will be the position's requirements and expectations?",
                 name: "reqExp"
             },
+
+            {
+                type: "rawlist",
+                message: "What department will this position be assigned?",
+                name: "assignedP",
+                choices: [{ name: "Accounting", value: 7 }, { name: "Administration", value: 1 }, { name: "Advertisement", value: 2 }, { name: "Client Services", value: 3 }, { name: "Creative Concepts", value: 4 }, { name: "HR", value: 5 }, { name: "Web Development", value: 6 }]
+            },
+
+           
         ]).then(function (res) {
-            connection.query("INSERT INTO jobTitle(name, salary, Description, department_id)  VALUE (?, ?, ?, ?);", [res.addPtitle, res.salary, res.assignedD, res.reqExp], (err, result)=>{
-                
-                console.table(result);
+            connection.query("INSERT INTO jobTitle(name, salary, Description, department_id)  (?, ?, ?, ?);", [res.addPtitle, res.salary, res.reqExp, res.assignedD], (err, result) => {
                 userPrompt();
-            if (err) throw err;
+                if (err) throw err;
             })
-            return console.log("New Position Saved.");
+            return console.table(res);
 
         });
     };
 
     // this will need to be connected to sql AND be changeable.
-    // function UpdatePosition() {
-    //     inquirer.prompt([
-    //         {
-    //             type: "input",
-    //             message: "Please enter the current position title you wish to change:",
-    //             name: "currentPosition"
-    //         },
+    function UpdatePosition() {
+        //     inquirer.prompt([
+        //         {
+        //             type: "input",
+        //             message: "Please enter the current position title you wish to change:",
+        //             name: "currentPosition"
+        //         },
 
-    //         {
-    //             type: "rawlist",
-    //             message: "What do you wish to update?",
-    //             choices: ["Title", "Salary", "Requirements and Expectations", "Department"],
-    //             name: "updateSelectP"
-    //         },
+        //         {
+        //             type: "rawlist",
+        //             message: "What do you wish to update?",
+        //             choices: ["Title", "Salary", "Requirements and Expectations", "Department"],
+        //             name: "updateSelectP"
+        //         },
 
-    //         {
-    //             type: "input",
-    //             message: "Please enter the new position title:",
-    //             name: "updatePosition",
-    //             when: function (answers) { return answers.updateSelectP === "Title" }
-    //         },
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new position title:",
+        //             name: "updatePosition",
+        //             when: function (answers) { return answers.updateSelectP === "Title" }
+        //         },
 
-    //         {
-    //             type: "input",
-    //             message: "Please enter the new yearly position salary:",
-    //             name: "updateSalary",
-    //             when: function (answers) { return answers.updateSelectP === "Salary" }
-    //         },
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new yearly position salary:",
+        //             name: "updateSalary",
+        //             when: function (answers) { return answers.updateSelectP === "Salary" }
+        //         },
 
-    //         {
-    //             type: "input",
-    //             message: "Please enter the new requirements and expectations:",
-    //             name: "updateReqExp",
-    //             when: function (answers) { return answers.updateSelectP === "Requirements and Expectations" }
-    //         },
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new requirements and expectations:",
+        //             name: "updateReqExp",
+        //             when: function (answers) { return answers.updateSelectP === "Requirements and Expectations" }
+        //         },
 
-    //         {
-    //             type: "input",
-    //             message: "Please enter the new department of the position:",
-    //             name: "updateDepartmentP",
-    //             when: function (answers) { return answers.updateSelectP === "Department" }
-    //         },
-    //     ]).then(function (res) {
-    //         return console.log("The position profile has been updated");
-    //     });
-    return console.log("Currently Under Maintenance. Please, check back later. Sorry for any inconvenience.");
-    // };
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new department of the position:",
+        //             name: "updateDepartmentP",
+        //             when: function (answers) { return answers.updateSelectP === "Department" }
+        //         },
+        //     ]).then(function (res) {
+        //         return console.log("The position profile has been updated");
+        //     });
+        return console.log("Currently Under Maintenance. Please, check back later. Sorry for any inconvenience.");
+    };
 
     // this will need to be connected to sql AND be removeable.
     function DeletePosition() {
         inquirer.prompt([
             {
-                type: "rawlist",
-                message: "Please choose the position that you wish to delete:",
-                name: "deletePosition",
-                choices: [{ name: "Head Accountant", value: 5 }, { name: "Intern", value: 6 }, { name: "Manager", value: 2 }, { name: "Project Lead", value: 3 }, { name: "Web Developer", value: 4 }]
+                type: "input",
+                message: "Please the Department id you wish to remove:",
+                name: "deletePosition"
             },
         ]).then(function (res) {
-            return console.log(res.deletePosition + " has been removed")
+            connection.query("DELETE FROM jobTitle WHERE id = (?);", [res.deletePosition], (err, res) => {
+                console.table(res);
+                userPrompt();
+                if (err) throw err;
+            })
+            return console.table(res)
         })
         if (err) throw err;
     }
@@ -324,7 +322,7 @@ function DepartmentSelect(res, err) {
             type: "rawlist",
             message: "What would you like to change?",
             name: "departments",
-            choices: ["Add New Department", "Make Updates", "Close Department", "Back"]
+            choices: ["Add New Department", "Make Updates", "Close Department (choose if you have position id)", "Back"]
         },
     ]).then((res) => {
         switch (res.departments) {
@@ -334,7 +332,7 @@ function DepartmentSelect(res, err) {
             case "Make Updates":
                 UpdateDepartment()
                 break
-            case "Close Department":
+            case "Close Department (choose if you have position id)":
                 DeleteDepartment()
                 break
             case "Back":
@@ -365,10 +363,10 @@ function DepartmentSelect(res, err) {
                 name: "description"
             },
         ]).then(function (res) {
-            connection.query("INSERT INTO department(name, number_of_staff, Description)  VALUE (?, ?, ?);", [res.addDtitle, res.staffCount, res.description], (err, result)=>{
+            connection.query("INSERT INTO department(name, number_of_staff, Description)  VALUE (?, ?, ?);", [res.addDtitle, res.staffCount, res.description], (err, result) => {
                 console.table(result);
                 userPrompt();
-            if (err) throw err;
+                if (err) throw err;
             })
             return console.log("New Department Saved.");
 
@@ -377,47 +375,47 @@ function DepartmentSelect(res, err) {
 
     // this will need to be connected to sql AND be changeable.
     function UpdateDepartment() {
-    //     inquirer.prompt([
-    //         {
-    //             type: "rawlist",
-    //             message: "Please enter the current department title you wish to change:",
-    //             name: "currentDepartment",
-    //             choices: [{ name: "Accounting", value: 1 }, { name: "Advertisement", value: 2 }, { name: "Client Services", value: 3 }, { name: "Creative Concepts", value: 4 }, { name: "HR", value: 5 }, { name: "Web Development", value: 6 }]
-    //         },
+        //     inquirer.prompt([
+        //         {
+        //             type: "rawlist",
+        //             message: "Please enter the current department title you wish to change:",
+        //             name: "currentDepartment",
+        //             choices: [{ name: "Accounting", value: 1 }, { name: "Advertisement", value: 2 }, { name: "Client Services", value: 3 }, { name: "Creative Concepts", value: 4 }, { name: "HR", value: 5 }, { name: "Web Development", value: 6 }]
+        //         },
 
-    //         {
-    //             type: "rawlist",
-    //             message: "What do you wish to update?",
-    //             choices: ["Title", "Description", "Staff Count"],
-    //             name: "updateSelectD"
-    //         },
+        //         {
+        //             type: "rawlist",
+        //             message: "What do you wish to update?",
+        //             choices: ["Title", "Description", "Staff Count"],
+        //             name: "updateSelectD"
+        //         },
 
-    //         {
-    //             type: "input",
-    //             message: "Please enter the new position title:",
-    //             name: "updateTitle",
-    //             when: function (answers) { return answers.updateSelectD === "Title" }
-    //         },
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new position title:",
+        //             name: "updateTitle",
+        //             when: function (answers) { return answers.updateSelectD === "Title" }
+        //         },
 
-    //         {
-    //             type: "input",
-    //             message: "Please enter the the new responsibilities of the department:",
-    //             name: "updateDescription",
-    //             when: function (answers) { return answers.updateSelectD === "Description" }
-    //         },
+        //         {
+        //             type: "input",
+        //             message: "Please enter the the new responsibilities of the department:",
+        //             name: "updateDescription",
+        //             when: function (answers) { return answers.updateSelectD === "Description" }
+        //         },
 
-    //         {
-    //             type: "input",
-    //             message: "Please enter the new amount of staff members needed:",
-    //             name: "updateStaffCount",
-    //             when: function (answers) { return answers.updateSelectD === "Staff Count" }
-    //         },
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new amount of staff members needed:",
+        //             name: "updateStaffCount",
+        //             when: function (answers) { return answers.updateSelectD === "Staff Count" }
+        //         },
 
-    //     ]).then(function (res) {
-    //         return console.log("The department profile has been updated");
-    //     });
+        //     ]).then(function (res) {
+        //         return console.log("The department profile has been updated");
+        //     });
 
-    return console.log("Currently Under Maintenance. Please, check back later. Sorry for any inconvenience.");
+        return console.log("Currently Under Maintenance. Please, check back later. Sorry for any inconvenience.");
     };
 
     // this will need to be connected to sql AND be removeable.
@@ -427,28 +425,29 @@ function DepartmentSelect(res, err) {
                 type: "input",
                 message: "Please enter the department that you wish to delete:",
                 name: "deleteDepartment",
-                choices: [{ name: "Accounting", value: 1 }, { name: "Advertisement", value: 2 }, { name: "Client Services", value: 3 }, { name: "Creative Concepts", value: 4 }, { name: "HR", value: 5 }, { name: "Web Development", value: 6 }]
+                choices: [{ name: "Accounting", value: 1 }, { name: "Administration", value: 1 }, { name: "Advertisement", value: 2 }, { name: "Client Services", value: 3 }, { name: "Creative Concepts", value: 4 }, { name: "HR", value: 5 }, { name: "Web Development", value: 6 }]
             }
         ]).then(function (res) {
             return console.log(res.deleteDepartment + " has been removed")
             if (err)
-            throw err
+                throw err
         })
         if (err) throw err;
     }
     if (err) throw err;
 };
 
-function displayRecords() {
-    // FULL join????
-    connection.query("SELECT * FROM staff_members, department, jobTitle, staff_removals;", function (err, res) {
-        console.table(res);
-        userPrompt();
-        if (err)
-            throw err
-    });
+// function displayRecords() {
+//     // FULL join????
+//     connection.query("SELECT * FROM staff_members, department, jobTitle, staff_removals;", function (err, res) {
+//         console.table(res);
+//         userPrompt();
+//         if (err)
+//             throw err
+//     });
 
-};
+// };
+
 
 function displayStaffRecords() {
     connection.query("SELECT * FROM staff_members;", function (err, res) {
@@ -477,14 +476,14 @@ function displayJobRecords() {
     });
 };
 
-function displayStaffRemovalRecords() {
-    connection.query("SELECT * FROM removals;", function (err, res) {
-        console.table(res);
-        userPrompt();
-        if (err)
-            throw err
-    });
-}
+// function displayStaffRemovalRecords() {
+//     connection.query("SELECT * FROM removals;", function (err, res) {
+//         console.table(res);
+//         userPrompt();
+//         if (err)
+//             throw err
+//     });
+// }
 
 
 

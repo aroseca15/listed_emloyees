@@ -1,10 +1,12 @@
+
+-- Create db
 DROP DATABASE IF EXISTS staff_db;
 
 CREATE DATABASE staff_db;
 
 USE staff_db;
 
-
+-- Create department table 
 CREATE TABLE department(
     id INTEGER AUTO_INCREMENT NOT NULL,
     name VARCHAR(40),
@@ -13,6 +15,7 @@ CREATE TABLE department(
     PRIMARY KEY(id)
     );
     
+    -- Create Positions table with jobTitle name since "roles" and "positons" names were rejected be mysql.
     CREATE TABLE jobTitle(
     id INTEGER AUTO_INCREMENT,
     name VARCHAR(40),
@@ -23,8 +26,9 @@ CREATE TABLE department(
     FOREIGN KEY(department_id) REFERENCES department(id)
     );
  
-CREATE TABLE staff_members(
-    id INTEGER AUTO_INCREMENT NOT NULL,
+--  Create Staff Members Table
+   CREATE TABLE staff_members(
+    id INTEGER AUTO_INCREMENT NOT NULL, 
     first_name VARCHAR(40) NOT NULL,
     last_name VARCHAR(40) NOT NULL,
     status VARCHAR(200) NOT NULL, 
@@ -35,20 +39,21 @@ CREATE TABLE staff_members(
     CONSTRAINT fk_department FOREIGN KEY(department_id) REFERENCES department(id),
     CONSTRAINT fk_jobTitle FOREIGN KEY(job_id) REFERENCES jobTitle(id)
     );
-    
-    CREATE TABLE staff_removals(
-    id INTEGER AUTO_INCREMENT NOT NULL,
-    first_name VARCHAR(40) NOT NULL,
-    last_name VARCHAR(40) NOT NULL,
-    status VARCHAR(200) NULL, 
-    department_id INTEGER NULL,
-    job_id INTEGER NOT NULL,
-    managerId INTEGER NULL,
-    Removal_Circumstances varchar(25),
-    Removal_Description_Docs VARCHAR(200),
-    PRIMARY KEY(id),
-    FOREIGN KEY(department_id) REFERENCES department(id)
-    );
+       
+    -- Create Staff Removals Table
+    -- CREATE TABLE staff_removals(
+    -- id INTEGER AUTO_INCREMENT NOT NULL,
+    -- first_name VARCHAR(40) NOT NULL,
+    -- last_name VARCHAR(40) NOT NULL,
+    -- status VARCHAR(200) NULL, 
+    -- department_id INTEGER NULL,
+    -- job_id INTEGER NOT NULL,
+    -- managerId INTEGER NULL,
+    -- Removal_Circumstances varchar(25),
+    -- Removal_Description_Docs VARCHAR(200),
+    -- PRIMARY KEY(id),
+    -- FOREIGN KEY(department_id) REFERENCES department(id)
+    -- );
     
 
 SELECT * FROM staff_removals AS removals;
