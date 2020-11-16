@@ -138,3 +138,24 @@ VALUES (10, "Han", "Solo", "Current", 5,  6, 2);
 INSERT INTO Staff_Removals(id, first_name, last_name, status, department_id, job_id, managerId, Removal_Circumstances, Removal_Description_Docs )
 VALUES (666, "Darth", "Vader", NULL, 5, 6, 2, "Administrative", "Insubordinate, Unwilling to learn or fulfill duties. Multiple write ups on record.");
 
+
+SELECT  id AS staff_id
+FROM staff_members s
+INNER JOIN staff_members m
+ON m.id = s.managerId;
+-- SELECT staff_members.id AS staff_id
+-- FROM staff_members AS staff
+-- LEFT JOIN staff_members.managerId AS manager_id
+-- ON staff.staff_id = manager_id;
+
+-- SELECT S.name AS name, M.name AS manager_name, S.title
+-- FROM staff_members S, staff_members M
+-- WHERE S.id <> M.id
+-- AND S.manager_id = M.id;
+
+
+SELECT * FROM staff_members AS staff
+LEFT JOIN jobTitle AS job ON staff.job_id = job.id;
+
+SELECT * FROM jobTitle AS job
+LEFT JOIN department AS depart ON job.department_id = depart.id;
