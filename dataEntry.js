@@ -148,12 +148,12 @@ function StaffSelect(res, err) {
     function DeleteEmployee() {
         inquirer.prompt([
             {
-                type: "rawlist",
-                message: "Please choose the staff member you wish to remove?",
+                type: "checkbox",
+                message: "Please find the staff member you wish to remove. Use arrows, then enter to mark their employee id in checkbox:",
                 name: "deleteStaff",
-                choices: [{ name: "Jack Johnson", value: 2 }, { name: "Colbie Caliet", value: 3 }, { name: "Kelsea Ballerini", value: 4 }, { name: "Ray Benson", value: 5 }, { name: "Han Solo", value: 6 }]
+                choices: [{ name: 2 }, { name: 3 }, { name: 4 }, { name: 5 }, { name: 6 }, { name: 11 }, { value: 12 }, { value: 13 }, { value: 14 }, { value: 15 }]
             },
-
+            
             // {
             //     type: "rawlist",
             //     message: "What were the circumstances of the dismissal?",
@@ -168,7 +168,14 @@ function StaffSelect(res, err) {
             //     when: function (answers) { return answers.circumstance !== "Voluntary" }
             // },
         ]).then(function (res) {
-            return console.log(res.deleteStaff + " has been removed")
+            connection.query("DELETE FROM staff_members WHERE id = VALUE(?);", [res.deleteStaff], (err, res)=>{
+                
+                console.table(res);
+                // return console.log("New Staff Member Saved.");
+                userPrompt();
+            if (err) throw err;
+            })
+            // return console.log(res.deleteStaff + " has been removed")
         })
 
     }
