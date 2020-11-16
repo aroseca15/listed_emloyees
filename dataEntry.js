@@ -112,10 +112,11 @@ function StaffSelect(res, err) {
             {
                 type: "rawlist",
                 message: "What Manager Will They Report To?",
-                name: "deleteStaff",
+                name: "managerId",
                 choices: [{ name: "Jack Johnson", value: 2 }, { name: "Kelsea Ballerini", value: 4 }, { name: "Jackson Dunn", value: 6 }, { name: "Tirzah Ericson", value: 7 }, { name: "Scott James", value: 8 }, { name: "Tiffany Sunberg", value: 9 }]
             },
         ]).then(function (res) {
+           
             connection.query("INSERT INTO staff_members(first_name, last_name, status, department_id, job_id, managerId )  VALUE (?, ?, ?, ?, ?, ?);", [res.firstName, res.lastName, res.status, res.assignedD, res.jobTitle, res.managerId], (err, result)=>{
                 
                 console.table(result);
@@ -420,6 +421,7 @@ function DepartmentSelect(res, err) {
                 message: "Please enter the department that you wish to delete:",
                 name: "deleteDepartment",
                 choices: [{ name: "Accounting", value: 1 }, { name: "Advertisement", value: 2 }, { name: "Client Services", value: 3 }, { name: "Creative Concepts", value: 4 }, { name: "HR", value: 5 }, { name: "Web Development", value: 6 }]
+            }
         ]).then(function (res) {
             return console.log(res.deleteDepartment + " has been removed")
             if (err)
