@@ -28,8 +28,8 @@ VALUES (18, "Tiffany", "Sunberg", "Current", 3,  2, 1);
 INSERT INTO staff_members(id, first_name, last_name, status, department_id, job_id, managerId )
 VALUES (10, "Han", "Solo", "Current", 5,  6, 2);
 
-INSERT INTO Staff_Removals(id, first_name, last_name, status, department_id, job_id, managerId, Removal_Circumstances, Removal_Description_Docs )
-VALUES (666, "Darth", "Vader", NULL, 5, 6, 2, "Administrative", "Insubordinate, Unwilling to learn or fulfill duties. Multiple write ups on record.");
+-- INSERT INTO Staff_Removals(id, first_name, last_name, status, department_id, job_id, managerId, Removal_Circumstances, Removal_Description_Docs )
+-- VALUES (666, "Darth", "Vader", NULL, 5, 6, 2, "Administrative", "Insubordinate, Unwilling to learn or fulfill duties. Multiple write ups on record.");
 
 
 

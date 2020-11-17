@@ -46,7 +46,7 @@ function userPrompt() {
     })
 };
 
-// ADD, UPDATE and DELETE Staff Member/ Employee
+
 function StaffSelect(res, err) {
     inquirer.prompt([
         {
@@ -73,6 +73,7 @@ function StaffSelect(res, err) {
     });
 
 
+    // this will need to be connected to sql AND be able to write/post new data.
     function AddNewEmployee() {
         inquirer.prompt([
             {
@@ -86,7 +87,7 @@ function StaffSelect(res, err) {
                 message: "What is your new hire's Last Name?",
                 name: "lastName"
             },
-
+            // Below: OR is the value: "true"      value:"false"
             {
                 type: "rawlist",
                 message: "Is this person offically hired?",
@@ -127,9 +128,17 @@ function StaffSelect(res, err) {
         });
     };
 
-    // UPDATE under construction.
+    // this will need to be connected to sql AND be changeable.
     function UpdateEmployee() {
-        // My ideas are in code ideas folder.
+        // inquirer.prompt([
+        //     {
+        //         type: "input",
+        //         message: "Please enter the staff id or first and last name?",
+        //         name: "updateStaff"
+        //     },
+        // ]).then(function (res) {
+        //     return console.log(res.updateStaff + "'s profile has been updated")
+        // })
         return console.log("Currently Under Maintenance. Please, check back later. Sorry for any inconvenience.");
     }
 
@@ -143,6 +152,20 @@ function StaffSelect(res, err) {
                 name: "deleteStaff"
 
             },
+
+            // {
+            //     type: "rawlist",
+            //     message: "What were the circumstances of the dismissal?",
+            //     choices: ["Voluntary", "Administrative"],
+            //     name: "circumstance"
+            // },
+
+            // {
+            //     type: "input",
+            //     message: "Please enter a brief reason for dismissal and documents available for review?",
+            //     name: "reasons",
+            //     when: function (answers) { return answers.circumstance !== "Voluntary" }
+            // },
         ]).then(function (res) {
             connection.query("DELETE FROM staff_members WHERE id = (?);", [res.deleteStaff], (err, res) => {
                 userPrompt();
@@ -154,7 +177,6 @@ function StaffSelect(res, err) {
     }
 };
 
-// ADD, UPDATE and DELETE Role/Position
 function PositionSelect(res, err) {
     inquirer.prompt([
         {
@@ -220,13 +242,56 @@ function PositionSelect(res, err) {
         });
     };
 
-    // UPDATE under construction
+    // this will need to be connected to sql AND be changeable.
     function UpdatePosition() {
-        // My ideas are in code ideas folder.
+        //     inquirer.prompt([
+        //         {
+        //             type: "input",
+        //             message: "Please enter the current position title you wish to change:",
+        //             name: "currentPosition"
+        //         },
+
+        //         {
+        //             type: "rawlist",
+        //             message: "What do you wish to update?",
+        //             choices: ["Title", "Salary", "Requirements and Expectations", "Department"],
+        //             name: "updateSelectP"
+        //         },
+
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new position title:",
+        //             name: "updatePosition",
+        //             when: function (answers) { return answers.updateSelectP === "Title" }
+        //         },
+
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new yearly position salary:",
+        //             name: "updateSalary",
+        //             when: function (answers) { return answers.updateSelectP === "Salary" }
+        //         },
+
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new requirements and expectations:",
+        //             name: "updateReqExp",
+        //             when: function (answers) { return answers.updateSelectP === "Requirements and Expectations" }
+        //         },
+
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new department of the position:",
+        //             name: "updateDepartmentP",
+        //             when: function (answers) { return answers.updateSelectP === "Department" }
+        //         },
+        //     ]).then(function (res) {
+        //         return console.log("The position profile has been updated");
+        //     });
         return console.log("Currently Under Maintenance. Please, check back later. Sorry for any inconvenience.");
     };
 
-
+    // this will need to be connected to sql AND be removeable.
     function DeletePosition() {
         inquirer.prompt([
             {
@@ -249,7 +314,7 @@ function PositionSelect(res, err) {
 
 
 
-// ADD, UPDATE and DELETE Departments
+// ADD, UPDATE and DELETE
 
 function DepartmentSelect(res, err) {
     inquirer.prompt([
@@ -308,8 +373,48 @@ function DepartmentSelect(res, err) {
 
 
     // UPDATE under constrution.
+
     function UpdateDepartment() {
-        // My ideas are in code ideas folder.
+        //     inquirer.prompt([
+        //         {
+        //             type: "rawlist",
+        //             message: "Please enter the current department title you wish to change:",
+        //             name: "currentDepartment",
+        //             choices: [{ name: "Accounting", value: 1 }, { name: "Advertisement", value: 2 }, { name: "Client Services", value: 3 }, { name: "Creative Concepts", value: 4 }, { name: "HR", value: 5 }, { name: "Web Development", value: 6 }]
+        //         },
+
+        //         {
+        //             type: "rawlist",
+        //             message: "What do you wish to update?",
+        //             choices: ["Title", "Description", "Staff Count"],
+        //             name: "updateSelectD"
+        //         },
+
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new position title:",
+        //             name: "updateTitle",
+        //             when: function (answers) { return answers.updateSelectD === "Title" }
+        //         },
+
+        //         {
+        //             type: "input",
+        //             message: "Please enter the the new responsibilities of the department:",
+        //             name: "updateDescription",
+        //             when: function (answers) { return answers.updateSelectD === "Description" }
+        //         },
+
+        //         {
+        //             type: "input",
+        //             message: "Please enter the new amount of staff members needed:",
+        //             name: "updateStaffCount",
+        //             when: function (answers) { return answers.updateSelectD === "Staff Count" }
+        //         },
+
+        //     ]).then(function (res) {
+        //         return console.log("The department profile has been updated");
+        //     });
+
         return console.log("Currently Under Maintenance. Please, check back later. Sorry for any inconvenience.");
     };
 
@@ -334,8 +439,17 @@ function DepartmentSelect(res, err) {
     }
 };
 
+// function displayRecords() {
+//     // FULL join????
+//     connection.query("SELECT * FROM staff_members, department, jobTitle, staff_removals;", function (err, res) {
+//         console.table(res);
+//         userPrompt();
+//         if (err)
+//             throw err
+//     });
 
-// Display Functions
+// };
+
 
 function displayStaffRecords() {
     connection.query("SELECT * FROM staff_members;", function (err, res) {
